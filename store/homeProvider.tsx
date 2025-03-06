@@ -1,4 +1,5 @@
-import { createContext, ReactNode, useState } from "react";
+import useStorageHook from "@/hooks/useStorageHook";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 
 
@@ -9,7 +10,8 @@ export type HomeContextType = {
     closeModal: () => void;
     increasePoints: (points: number) => void;
     decreasePoints: (points: number) => void;
-    handleModalSubmit: (points: number) => void
+    handleModalSubmit: (points: number) => void;
+    increaseGymPoints: (points: number) => void
 }
 export const HomeContext = createContext<HomeContextType>({
     eatOutModalOpen: false,
@@ -19,11 +21,16 @@ export const HomeContext = createContext<HomeContextType>({
     totalPoints: 0,
     increasePoints: () => { },
     decreasePoints: () => { },
+    increaseGymPoints: () => { }
 });
 
 export default function HomeProvider({ children }: { children: ReactNode }) {
     const [eatOutModalOpen, setEatOutModalOpen] = useState<boolean>(false)
     const [totalPoints, setTotalPoints] = useState<number>(0)
+    const {storage_points, removeEatOutPoints, addGymPoints, addMiscPoints, removeMiscPoints} = useStorageHook();
+    useEffect(()=>{
+        setTotalPoints(storage_points);
+    },[])
     const openModal = () => {
         setEatOutModalOpen(true);
     }
@@ -31,13 +38,19 @@ export default function HomeProvider({ children }: { children: ReactNode }) {
         setEatOutModalOpen(false);
     }
     const increasePoints = (points: number) => {
+        addMiscPoints(points);
         setTotalPoints(totalPoints + points)
     }
+    const increaseGymPoints = (points: number) => {
+        addGymPoints(points);
+    }
     const decreasePoints = (points: number) => {
+        removeEatOutPoints(points);
         setTotalPoints(totalPoints - points)
     }
     const handleModalSubmit = (points: number) => {
         decreasePoints(points)
+        removeEatOutPoints(points);
     }
     const output = {
         eatOutModalOpen,
@@ -46,7 +59,8 @@ export default function HomeProvider({ children }: { children: ReactNode }) {
         closeModal,
         totalPoints,
         increasePoints,
-        decreasePoints
+        decreasePoints,
+        increaseGymPoints
     }
     return (
         <HomeContext.Provider value={output}>

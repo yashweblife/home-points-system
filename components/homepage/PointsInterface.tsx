@@ -9,7 +9,7 @@ export type EatOutModalProps = {
 } 
 
 export default function PointsInterface(){
-    const {totalPoints, increasePoints, decreasePoints, openModal} = useContext(HomeContext);
+    const {totalPoints, increasePoints, decreasePoints,increaseGymPoints, openModal} = useContext(HomeContext);
     const {colors} = useTheme();
     return(
         <View style={{
@@ -66,7 +66,7 @@ export default function PointsInterface(){
                     gap: 20
                 }}
             >
-                <Button mode="outlined" style={{ borderRadius: 20 }} onPress={() => increasePoints(1)}>Did You Go To The Gym?</Button>
+                <Button mode="outlined" style={{ borderRadius: 20 }} onPress={() => increaseGymPoints(1)}>Did You Go To The Gym?</Button>
                 <Button mode="outlined" style={{ borderRadius: 20 }} onPress={() => openModal()}>Did You Eat Out?</Button>
                 <Button mode="outlined" style={{ borderRadius: 20 }} onPress={()=> decreasePoints(50)}>Did you Take A Big Trip?</Button>
             </View>
