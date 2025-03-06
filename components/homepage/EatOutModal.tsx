@@ -1,6 +1,11 @@
-import { EatOutModalProps } from "@/app";
 import { View, } from "react-native";
 import { Button, Modal, Portal, Text, useTheme } from "react-native-paper";
+
+export type EatOutModalProps = {
+    state: boolean,
+    setState: (state: boolean) => void
+    handleSubmit: (val: number) => void
+}
 
 export default function EatOutModal({ state, setState, handleSubmit }: EatOutModalProps) {
     const { colors } = useTheme();
