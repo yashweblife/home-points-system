@@ -1,5 +1,7 @@
 import { Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { MD2DarkTheme, PaperProvider } from "react-native-paper";
+
 export default function RootLayout() {
     return (
         <PaperProvider theme={MD2DarkTheme}>
@@ -8,6 +10,7 @@ export default function RootLayout() {
                 <Stack.Screen name="dashboard" />
                 <Stack.Screen name="+not-found" />
             </Stack>
+            <StatusBar/>
         </PaperProvider>
     )
 }
